@@ -1,5 +1,7 @@
 # Como fazer um servidor de Minecraft dentro do Servidor Caseiro no Celular via Termux
 
+Rodar aquele servidorzinho Minecraft pra jogar online com a rapaziada, sempre foi meu sonho kkkkk, hoje em dia fazer isso está cada dia mais fácil, e nesse tutórial vou mostrar uma dessas formas, aproveitando o nosso Servidor Caseiro do Galaxy s9.
+
 ## Pré-requisitos necessários
 
 - Termux instalado

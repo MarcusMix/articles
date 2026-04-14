@@ -10,7 +10,7 @@ Então bora começar esse servidorzinho, que ele é muito top!
 
 ## 1) Baixar a loja F-Droid
 
-O F-Droid é uma loja com gratuito e com vários apps open-source, a maior vantagem é poder se desvincular da Google Play Store e baixar seus apps diretamente por ela, sem precisar de login ou qualquer coisa de KYC.
+O F-Droid é uma loja gatuita e com vários apps open-source, a maior vantagem é poder se desvincular da Google Play Store e baixar seus apps diretamente por ela, sem precisar de login ou qualquer coisa de KYC.
 
 link do F-Droid: https://f-droid.org/
 
@@ -26,7 +26,7 @@ Pra mim deu um aviso do Google Play Protect tentando evitar o download, mas foi 
 Após instalar o Termux, vamos iniciar ele, e a primeira coisa que faremos, é atualizar o sistema com os comandos 
 
 ```bash
-pkg update && pkg upgrade -y)
+pkg update && pkg upgrade -y
 ```
 
 Depois disso, com o Termux atualizado, podemos ir para o próximo passo.
@@ -64,7 +64,7 @@ Estou usando ele e gostei bastante, a interface é simples, mas funcional, com r
 
 Para baixar ele, vamos executar o comando:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash`
+curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
 ```
 
 Esse comando executa um `curl` que baixa do repositório oficial do File Browser.
@@ -93,7 +93,7 @@ Na prática ele fala pro Android quando o não tiver ninguem mexendo no celular,
 
 ## 7) Deixando o File Browser automático
 
-A forma como rodamos o File Browser no passo 6, precisamos deixar o terminal aberto, se não o File Browser não conseguirá rodar, e toda vez que o celular desligar, precisariámos fazer todos esses passos novamente, mas como vamos querer que ele fique 100% automático, vamos precisar fazer algumas alterações.
+A forma como rodamos o File Browser no passo 6, precisamos deixar o terminal aberto, se não o File Browser não conseguirá rodar, e toda vez que o celular desligar, precisariamos fazer todos esses passos novamente, mas como vamos querer que ele fique 100% automático, vamos precisar fazer algumas alterações.
 
 Para isso vamos precisar instalar o Termux:Boot no F-Droid, e depois que instalar, entrar nele pelo menos uma vez, para o sistema entender.
 
@@ -114,7 +114,7 @@ vim ~/.termux/boot/start-services.sh
 
 Quando digitar isso, será preciso apertar a tecla `a` para poder escrever dentro do `vim`, e nós vamos precisar escrever o seguinte:
 
-```bash
+bash
 #!/data/data/com.termux/files/usr/bin/sh
 termux-wake-lock
 
@@ -125,7 +125,7 @@ filebrowser -a 0.0.0.0 -p 8080 -r ~/storage/shared > /dev/null 2>&1 &
 
 Esse comando a cima faz com que iniciamos o servico Wake Lock do Termux, o nosso ssh e também nosso File Browser na porta correta.
 
-Para sair do editor vim, precionamos `esc+:+wqa` um de cada vez, que assim ele vai sair e salvar as alterações.
+Para sair do editor vim, precionamos `esc` + `:` + `wqa` um de cada vez, que assim ele vai sair e salvar as alterações.
 
 Agora o último passo, é transformar esse arquivo que acabamos de criar, em um arquivo executável.
 
