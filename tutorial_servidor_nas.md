@@ -114,7 +114,7 @@ vim ~/.termux/boot/start-services.sh
 
 Quando digitar isso, será preciso apertar a tecla `a` para poder escrever dentro do `vim`, e nós vamos precisar escrever o seguinte:
 
-bash
+```bash
 #!/data/data/com.termux/files/usr/bin/sh
 termux-wake-lock
 
