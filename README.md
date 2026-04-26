@@ -19,3 +19,7 @@ Coleção de tutoriais em português para transformar celulares Android em servi
 ## Objetivo
 
 Dar uma segunda vida a celulares antigos, evitando o descarte eletrônico e aproveitando o hardware para rodar serviços úteis no dia a dia.
+
+
+## Apoie ⭐
+Caso esse projeto te ajude, favorite com uma estrela este projeto, logo mais trarei mais tutoriais escrito e vídeo.
