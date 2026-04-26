@@ -1,185 +1,254 @@
-# Tutorial de como Transformar seu Celular em um Servidor NAS Caseiro 
-#### Dificuldade: fácil
+# Tutorial: Transforme seu Celular em um Servidor NAS Caseiro
+#### Dificuldade: Fácil
 
-Transformar um celular velho, antigo ou sem uso em um servidor, é uma forma de conseguir reutilizar o aparelho, evitando de jogar fora, além de ajudar o meio ambiente evitando o descarte e dando uma segunda vida pro aparelho.
+Transformar um celular velho, antigo ou sem uso em um servidor é uma forma de reutilizar o aparelho, evitando o descarte eletrônico e dando uma segunda vida ao equipamento.
 
-Vamos fazer um servidor NAS, que é projetado para fornecer acesso a dados por meio da nossa rede.
-Dessa forma vamos conseguir guardar e acessar arquivos de vários dispositívos simultâneos apenas acessando o endereço do servidor por um navegador.
+Vamos montar um **servidor NAS** (Network Attached Storage), que é um servidor projetado para armazenar e fornecer acesso a arquivos pela rede local. Com ele, você consegue guardar e acessar seus arquivos de qualquer dispositivo conectado ao mesmo Wi-Fi, direto pelo navegador.
 
 Então bora começar esse servidorzinho, que ele é muito top!
 
+---
+
+## 📺 Vídeo
+
+Prefere assistir ao invés de ler? Tem um vídeo completo cobrindo esse tutorial:
+
+[![Thumbnail do vídeo - Servidor NAS no Celular](https://img.youtube.com/vi/jMXeb5JSE1s/maxresdefault.jpg)](https://www.youtube.com/watch?v=jMXeb5JSE1s)
+
+---
+
+## O que você vai precisar
+
+- Um celular Android (qualquer versão razoavelmente recente)
+- Acesso à internet para baixar os apps e pacotes
+- Rede Wi-Fi local (todos os dispositivos devem estar na mesma rede para acessar o servidor)
+
+---
+
 ## 1) Baixar a loja F-Droid
 
-O F-Droid é uma loja gatuita e com vários apps open-source, a maior vantagem é poder se desvincular da Google Play Store e baixar seus apps diretamente por ela, sem precisar de login ou qualquer coisa de KYC.
+O F-Droid é uma loja gratuita com vários apps open-source. A maior vantagem é poder se desvincular da Google Play Store e baixar apps diretamente, sem precisar de login ou qualquer tipo de rastreamento.
 
-link do F-Droid: https://f-droid.org/
+**Link do F-Droid:** https://f-droid.org/
 
-## 2) Baixar o Termux (cuidar com o Google Play Protect)
+Após entrar no site, baixe e instale o `.apk` do F-Droid normalmente. O Android pode pedir permissão para instalar apps de fontes desconhecidas, só liberar.
 
-Após a instalação da F-Droid, vamos instalar o Termux, é um simulador de terminal linux dentro do Linux que roda sem root, ideial para projetos simples igual o que estamos fazendo.
+---
 
-Pra mim deu um aviso do Google Play Protect tentando evitar o download, mas foi só eu clicar em *mais detalhes* e instalar mesmo assim.
+## 2) Baixar o Termux
 
+Após instalar o F-Droid, vamos instalar o **Termux**. Ele é um emulador de terminal Linux que roda diretamente no Android, sem precisar de root. É através dele que vamos instalar e gerenciar todos os serviços do nosso servidor.
 
-## 2.1) Atualizar o Termux (pkg update && pkg upgrade -y)
+> **Atenção:** Baixe o Termux pelo F-Droid, **não pela Google Play Store**. A versão da Play Store está desatualizada e pode causar problemas.
 
-Após instalar o Termux, vamos iniciar ele, e a primeira coisa que faremos, é atualizar o sistema com os comandos 
+Pode aparecer um aviso do **Google Play Protect** tentando bloquear o download. Clique em *Mais detalhes* e instale mesmo assim, é seguro.
+
+---
+
+## 2.1) Atualizar o Termux
+
+Após instalar e abrir o Termux pela primeira vez, a primeira coisa a fazer é atualizar o sistema de pacotes:
 
 ```bash
 pkg update && pkg upgrade -y
 ```
 
-Depois disso, com o Termux atualizado, podemos ir para o próximo passo.
+Isso garante que você está com as versões mais recentes de tudo. Pode demorar um pouco dependendo da conexão.
 
-## 3) Baixar o openssh 
+---
 
-Agora vamos baixar o openssh, para conseguir acessar o nosso celular (futuro servidor) em outros dispositivos via ssh, para isso rodamos o comando dentro do Termux.
+## 3) Liberar acesso ao armazenamento
 
+Para que o Termux consiga acessar os arquivos do celular, precisamos dar permissão de armazenamento:
+
+```bash
+termux-setup-storage
 ```
+
+O Android vai exibir um pop-up pedindo permissão. Clique em **Permitir**. Sem isso, o File Browser não consegue enxergar seus arquivos.
+
+---
+
+## 4) Instalar o OpenSSH
+
+Agora vamos instalar o **OpenSSH**, que nos permite acessar o celular de outros dispositivos via terminal (SSH). Isso é útil para gerenciar o servidor sem precisar pegar o celular fisicamente.
+
+```bash
 pkg install openssh -y
 ```
 
-O openssh é o carinha que vai fazer com que seja possível nós se conectar com o nosso celular via ssh (ssh é basicamente uma forma segura de se conectar com outro aparelho via terminal) de forma simples, rápida e segura.
+### 4.1) Iniciar o SSH
 
-## 3.1) Rodar o openssh
+Para iniciar o servidor SSH:
 
-Depois que instalou o `openssh`, agora executamos dentro do terminal `sshd`, para poder executa-lo e testar.
+```bash
+sshd
+```
 
-## 4) Deixar o openssh executar sempre 
+### 4.2) Deixar o SSH iniciar automaticamente
 
-Para fazer o `openssh` executar sempre, mesmo após reiniciar o celular, precisamos rodar o comando abaixo, esse comando fará com que ele seja iniciado sempre que o sistema for ligado.
+Para que o SSH inicie sempre que o celular ligar, adicione ao `.bashrc`:
 
 ```bash
 echo "sshd" >> ~/.bashrc
 ```
 
-Depois disso nosso ssh já está configurado, e podemos passar pra etapa seguinte.
-
+---
 
 ## 5) Instalar o File Browser
 
-O File Browser será o nosso software NAS, ele é bem simples, porém para o nosso uso vai ser o suficiente.
+O **File Browser** vai ser a nossa interface NAS. Ele é leve, open-source e tem uma interface web simples e funcional que permite:
 
-Estou usando ele e gostei bastante, a interface é simples, mas funcional, com recursos para "upar" arquivos, fazer download e também é possível ler arquivos (pdf, docs, txt) diretamente com ele, o que já ajuda bastante.
+- Enviar (upload) arquivos do computador ou celular para o servidor
+- Baixar arquivos do servidor
+- Ler arquivos diretamente no navegador (PDF, imagens, vídeos, docs)
+- Criar pastas e organizar tudo
 
-Para baixar ele, vamos executar o comando:
+Para instalar, execute:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
 ```
 
-Esse comando executa um `curl` que baixa do repositório oficial do File Browser.
+Esse comando baixa e instala o File Browser direto do repositório oficial.
+
+---
 
 ## 6) Iniciar o File Browser
 
-Para poder iniciar corretamente o File Browser, vamos executar o comando abaixo.
+Para iniciar o File Browser:
 
 ```bash
 filebrowser -a 0.0.0.0 -p 8080 -r ~/storage/shared
 ```
 
-Este comando faz o File Browser rodar na porta 8080 do nosso servidor!!
+O que cada parte significa:
+- `-a 0.0.0.0` — aceita conexões de qualquer dispositivo na rede
+- `-p 8080` — define a porta de acesso (você pode trocar se quiser)
+- `-r ~/storage/shared` — define a pasta raiz que o File Browser vai exibir (toda a memória interna do celular)
 
-Nosso servidor está quase pronto, falta só mais alguns passos importantes.
+---
 
-## 6.1) Comando para o Termux não dormir
+## 6.1) Impedir que o Termux "adormeça"
 
-Esse comando abaixo, faz o Termux entender que ele não deve matar a nossa aplicação e deixar ele rodando.
+Por padrão, o Android pode matar processos em segundo plano para economizar bateria. Para evitar que o File Browser seja encerrado, rode:
 
 ```bash
 termux-wake-lock
 ```
 
-Na prática ele fala pro Android quando o não tiver ninguem mexendo no celular, ele não deixa o processo do File Browser morrer, mantém a conexão com WI-FI ativa e também garante respostas rápidas do nosso app.
+Esse comando faz três coisas importantes:
+1. Impede que o Android mate o processo do File Browser
+2. Mantém a conexão Wi-Fi ativa mesmo com a tela desligada
+3. Garante respostas rápidas para quem acessa o servidor
 
-## 7) Deixando o File Browser automático
+---
 
-A forma como rodamos o File Browser no passo 6, precisamos deixar o terminal aberto, se não o File Browser não conseguirá rodar, e toda vez que o celular desligar, precisariamos fazer todos esses passos novamente, mas como vamos querer que ele fique 100% automático, vamos precisar fazer algumas alterações.
+## 7) Deixar o File Browser iniciar automaticamente
 
-Para isso vamos precisar instalar o Termux:Boot no F-Droid, e depois que instalar, entrar nele pelo menos uma vez, para o sistema entender.
+Da forma que configuramos no passo 6, o servidor para quando o celular reinicia. Para torná-lo totalmente automático, vamos usar o **Termux:Boot**.
 
-Após isso, precisamos criar uma pasta `boot` dentro das configurações do Termux:
+### 7.1) Instalar o Termux:Boot
+
+Instale o **Termux:Boot** pelo F-Droid. Após instalar, **abra o app pelo menos uma vez** — isso é necessário para que o sistema registre o serviço de boot.
+
+### 7.2) Criar a pasta de boot
 
 ```bash
 mkdir -p ~/.termux/boot
 ```
 
-Agora que temos nossa pasta, vamos criar um executável que o Termux:Boot irá executar sempre que o celular (aka nosso Servidor NAS) reiniciar, ele vai `startar` o nosso servidor File Browser de forma automática! Top demais né...
-
-Então podemos rodar o seguinte comando no terminal do Termux:
-
+### 7.3) Criar o script de inicialização
 
 ```bash
 vim ~/.termux/boot/start-services.sh
 ```
 
-Quando digitar isso, será preciso apertar a tecla `a` para poder escrever dentro do `vim`, e nós vamos precisar escrever o seguinte:
+Dentro do vim, pressione `a` para entrar no modo de edição e escreva:
 
 ```bash
 #!/data/data/com.termux/files/usr/bin/sh
 termux-wake-lock
-
 sshd
-
 filebrowser -a 0.0.0.0 -p 8080 -r ~/storage/shared > /dev/null 2>&1 &
 ```
 
-Esse comando a cima faz com que iniciamos o servico Wake Lock do Termux, o nosso ssh e também nosso File Browser na porta correta.
+Para salvar e sair do vim: pressione `Esc`, depois digite `:wq` e pressione Enter.
 
-Para sair do editor vim, precionamos `esc` + `:` + `wqa` um de cada vez, que assim ele vai sair e salvar as alterações.
-
-Agora o último passo, é transformar esse arquivo que acabamos de criar, em um arquivo executável.
+### 7.4) Tornar o script executável
 
 ```bash
 chmod +x ~/.termux/boot/start-services.sh
 ```
 
-Após isso, seu Servidor Nas File Browser vai iniciar automaticamente toda vez que o celular for ligado.
+Pronto! A partir de agora, toda vez que o celular ligar, o SSH e o File Browser vão iniciar automaticamente.
 
-## 8) Mudando a senha padrão do File Browser
+---
 
-Após o File Browser estiver rodando, podemos agora alterar a senha do usuário padrão (admin) para uma senha do nosso gosto, com o comando:
+## 8) Trocar a senha padrão do File Browser
+
+O File Browser vem com o usuário `admin` e uma senha padrão. **Troque imediatamente** por uma senha sua:
 
 ```bash
 filebrowser users update admin --password SUA_SENHA_AQUI
 ```
 
-## 9) Acessando nosso Servidor NAS
-Pronto, agora nosso File Browser já está no ar, e podemos acessar ele de qualquer dispositívo que esteja na mesma rede pelo navegador.
+Substitua `SUA_SENHA_AQUI` pela senha que quiser usar.
 
-Para isso, no Termux precisamos descobrir qual é o IP do nosso servidor, e pra isso executamos o comando:
+---
+
+## 9) Acessar o Servidor NAS
+
+Com o File Browser rodando, precisamos descobrir o IP do celular na rede:
 
 ```bash
 ifconfig
 ```
 
-E o resultado do comando, perto da parte do `wlan0` sera o nosso IP, no meu caso é `192.168.200.240`, com esse número em mãos, só precisamos ir no navegador do pc, notebook ou celular que queremos usar para acessar o nosso servidor e digitar `192.168.200.240:8080`.
+Procure a seção `wlan0` no resultado. O IP vai aparecer ao lado de `inet`, algo como `192.168.1.100`.
 
-Não podemos esquecer de usar a porta `8080` para acessar o nosso File Browser.
+Com o IP em mãos, acesse pelo navegador de qualquer dispositivo na mesma rede:
 
-Se você já percebeu, podemos fazer isso para vários tipos de serviços, e cada serviço ocupará uma porta, nesse caso o File Browser esta na `8080`, poderiamos hospedar outros serviços nas outras portas.
-
-E agora é só desfrutar, fazer login com o usuário `admin` e colocar a senha que definimos no passo 8.
-
-## Passo extra
-Para a gente conseguir ver o uso de RAM e CPU do nosso servidor via ssh, podemos executar o seguinte comando:
-
-```bash
-pkg update && pkg install htop -y
+```
+http://192.168.1.100:8080
 ```
 
+Faça login com `admin` e a senha que você definiu no passo 8.
+
+> **Dica:** Cada dispositivo na rede pode ter um IP diferente. Se o IP do seu celular mudar, repita o `ifconfig` para descobrir o novo.
+
+---
+
+## Passo extra: Monitorar CPU e RAM via SSH
+
+Para acompanhar o desempenho do servidor pelo terminal (via SSH de outro dispositivo), instale o `htop`:
+
+```bash
+pkg install htop -y
+```
+
+E execute com:
+
+```bash
+htop
+```
+
+---
 
 ## Considerações finais
 
-Agora que temos o nosso Servidor Nas no celular, podemos usar e abusar dele.
+Nosso Servidor NAS caseiro está pronto! Algumas observações importantes:
 
-Para melhor performance de upload dos arquivos, seria legal ter um adaptador de rede conectado ao celular, dessa forma, ele vai upar arquivos de forma muito mais rápida.
+- **Performance de upload:** Para velocidades melhores, um **adaptador de rede USB** (USB-C para Ethernet) faz diferença considerável em relação ao Wi-Fi.
+- **Velocidade da rede:** Se o celular estiver longe do roteador, o upload pode ficar lento. Tente manter o servidor com boa cobertura de sinal.
+- **Limitações do hardware:** A performance varia de celular para celular. Celulares mais antigos ou com pouca RAM podem ficar lentos com muitos acessos simultâneos.
+- **Expandindo o servidor:** Como cada serviço roda em uma porta diferente, é possível hospedar outros serviços no mesmo celular (servidor de música, Minecraft, etc.) sem conflito.
 
-Também varia de dispositivo para dispositivo, as vezes a limitação vai ser do próprio celular ou da rede, se o celular estiver com o WI-FI muito longe, os uploads de arquivos vão ser mais lentos.
+---
 
 É isso rapaziada, curtiu?
-Apoia o canal se esse artigo foi útil, considere virar membro.
+Apoia o canal se esse tutorial foi útil, considera virar membro.
 
-Caso eu tenha feito alguma coisa de forma confusa, pode me chamar, ou se tiver alguma melhoria ou upgrade, me avisa também.
+Caso algo tenha ficado confuso ou você tenha alguma melhoria, me avisa!
 
-Tamo junto
-
+Tamo junto ✌️

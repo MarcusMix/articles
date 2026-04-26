@@ -4,11 +4,11 @@ Coleção de tutoriais em português para transformar celulares Android em servi
 
 ## Artigos
 
-| Tutorial | Descrição |
-|---|---|
-| [Servidor NAS Caseiro](tutorial_servidor_nas.md) | Transforme um celular antigo em um servidor NAS para armazenar e acessar arquivos na rede local |
-| [Servidor de Músicas](tutorial_musicas_online.md) | Configure o Navidrome no Termux para streamer sua biblioteca musical |
-| [Servidor de Minecraft](tutorial_servidor_minecraft.md) | Rode um servidor de Minecraft (Paper MC 1.20.4) diretamente no celular |
+| Tutorial | Descrição | Vídeo |
+|---|---|---|
+| [Servidor NAS Caseiro](tutorial_servidor_nas.md) | Transforme um celular antigo em um servidor NAS para armazenar e acessar arquivos na rede local | [▶ Assistir](https://www.youtube.com/watch?v=jMXeb5JSE1s) |
+| [Servidor de Músicas](tutorial_musicas_online.md) | Configure o Navidrome no Termux para stremar sua biblioteca musical | Em breve |
+| [Servidor de Minecraft](tutorial_servidor_minecraft.md) | Rode um servidor de Minecraft (Paper MC 1.20.4) diretamente no celular | Em breve |
 
 ## Pré-requisitos gerais
 
